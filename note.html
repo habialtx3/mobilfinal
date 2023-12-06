@@ -1,0 +1,25 @@
+import * as THREE from "three"; import { OrbitControls } from
+"three/examples/jsm/controls/OrbitControls"; import { GLTFLoader } from
+"three/addons/loaders/GLTFLoader.js"; // const carUrl = new
+URL("../assets/scene.gltf", import.meta.url); const renderer = new
+THREE.WebGL1Renderer(); renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement); const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera( 45, window.innerWidth /
+window.innerHeight, 0.1, 1000 ); const orbit = new OrbitControls(camera,
+renderer.domElement); camera.position.set(10, 10, 10); orbit.update(); const
+grid = new THREE.GridHelper(30, 30); scene.add(grid); const assetsLoader = new
+GLTFLoader(); const loader = new GLTFLoader(); loader.load(
+"../assets/audi_r8_3d_model.glb", function (gltf) { scene.add(gltf.scene); },
+undefined, function (error) { console.error(error); } ); //
+loader.load("../assets/audi_r8_3d_model.glb", (gltf) => { // const model =
+gltf.scene; // // Set the scale of the model // model.scale.set(25, 25, 25); //
+Sesuaikan skala sesuai kebutuhan // model.traverse(function (node) { // if
+(node.isMesh) { // node.castShadow = true; // Atur node.castShadow ke true // }
+// }); // scene.add(model); // }); function animate() { renderer.render(scene,
+camera); } renderer.setAnimationLoop(animate); window.addEventListener("resize",
+function () { camera.aspect = window.innerWidth / window.innerHeight;
+camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth /
+window.innerHeight); }); window.addEventListener('mousedown', function(){
+gsap.to(camera.position, { z:14, duration: 1.5, onUpdate: function(){
+camera.lookAt(0,0,0); } }); gsap.to(camera.position, { y:14, duration: 1.5,
+onUpdate: function(){ camera.lookAt(0,0,0); } }); })
